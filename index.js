@@ -1,6 +1,8 @@
 var express = require('express');
 var cors = require('cors');
-require('dotenv').config()
+require('dotenv').config();
+const multer = require('multer');
+const bodyParser = require('body-parser');
 
 var app = express();
 
@@ -11,23 +13,24 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+app.use(multer().any());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.post('/api/fileanalyse', function (req, res) {
   if (req.files) {
     console.log(req.files);
     res.json({
-      name: req.files.upfile.name,
-      type: req.files.upfile.mimetype,
-      size: req.files.upfile.size
+      name: req.files[0].originalname,
+      type: req.files[0].mimetype,
+      size: req.files[0].size
     })
   } else {
     res.json({
       error: 'No file uploaded'
     });
   }
-
 });
-
-
 
 
 const port = process.env.PORT || 3000;
