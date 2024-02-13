@@ -14,12 +14,17 @@ app.get('/', function (req, res) {
 app.get('/api/fileanalyse', function (req, res) {
   if (req.files) {
     console.log(req.files);
+    res.json({
+      name: req.files.upfile.name,
+      type: req.files.upfile.mimetype,
+      size: req.files.upfile.size
+    })
+  } else {
+    res.json({
+      error: 'No file uploaded'
+    });
   }
-  res.json({
-    name: req.files.upfile.name,
-    type: req.files.upfile.mimetype,
-    size: req.files.upfile.size
-  })
+
 });
 
 
