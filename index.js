@@ -11,6 +11,17 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
+app.get('/api/fileanalyse', function (req, res) {
+  if (req.files) {
+    console.log(req.files);
+  }
+  res.json({
+    name: req.files.upfile.name,
+    type: req.files.upfile.mimetype,
+    size: req.files.upfile.size
+  })
+});
+
 
 
 
